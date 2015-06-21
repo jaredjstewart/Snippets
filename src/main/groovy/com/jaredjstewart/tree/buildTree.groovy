@@ -3,6 +3,7 @@ package com.jaredjstewart.tree
 import com.jaredjstewart.resource_loading.ResourceLoader
 import groovy.util.slurpersupport.GPathResult
 import org.apache.commons.io.FileUtils
+import org.apache.commons.lang.WordUtils
 import org.ccil.cowan.tagsoup.Parser
 
 def employees = [new MyObject(id: 'a'),
@@ -24,5 +25,6 @@ List<Employee> employees1 = IntranetParser.getAllEmployeesFromFile('AllEmployees
 employees1.each {
     println it
 }
+
 
 
