@@ -5,6 +5,10 @@ import org.apache.commons.io.IOUtils
 
 class ResourceLoader {
 
+    public static URI loadResourceAsURI(String fileName) {
+        Thread.currentThread().getContextClassLoader().getResource(fileName).toURI()
+    }
+
     public static InputStream loadResourceAsStream(String fileName) {
         Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName)
     }

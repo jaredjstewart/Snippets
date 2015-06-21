@@ -10,13 +10,4 @@ import groovy.transform.ToString
 class MyObject {
     String id
     String parentId
-
-
-    String name
-    String managerName
-
-    String emailAddress
-    String title
-
-    String department
 }
