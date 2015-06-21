@@ -1,9 +1,7 @@
 package com.jaredjstewart.tree
 
-import com.jaredjstewart.resource_loading.ResourceLoader
-import groovy.util.slurpersupport.GPathResult
-import org.apache.commons.io.FileUtils
-import org.apache.commons.lang.WordUtils
+import com.jaredjstewart.http_client.HttpClient
+import com.jaredjstewart.parser.IntranetParser
 import org.ccil.cowan.tagsoup.Parser
 
 def employees = [new MyObject(id: 'a'),
@@ -18,13 +16,10 @@ def employees = [new MyObject(id: 'a'),
 def PARSER = new XmlSlurper(new Parser())
 def url = "http://internalapps/sharepoint/employees/SearchAction.cfm?sort=title"
 
-List<Employee> employees1 = IntranetParser.getAllEmployeesFromFile('AllEmployees.html')
+//List<Employee> employees1 = IntranetParser.getAllEmployeesFromFile('AllEmployees.html')
+
 
 //def tree = TreeBuilder.buildTree(employees)
 
-employees1.each {
-    println it
-}
-
-
+new HttpClient('user','pass').testConnection()
 

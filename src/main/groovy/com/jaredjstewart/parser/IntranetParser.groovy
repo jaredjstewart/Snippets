@@ -1,6 +1,7 @@
-package com.jaredjstewart.tree
+package com.jaredjstewart.parser
 
 import com.jaredjstewart.resource_loading.ResourceLoader
+import com.jaredjstewart.tree.Employee
 import groovy.util.slurpersupport.GPathResult
 import org.apache.commons.lang.WordUtils
 import org.ccil.cowan.tagsoup.Parser
@@ -9,6 +10,8 @@ import org.ccil.cowan.tagsoup.Parser
  * Created by Jared on 6/21/2015.
  */
 class IntranetParser {
+
+
 
     static List<Employee> getAllEmployeesFromFile(String filename) {
         String allEmployeesHTML = new File(ResourceLoader.loadResourceAsURI(filename)).text
