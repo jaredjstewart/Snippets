@@ -1,6 +1,7 @@
 package com.jaredjstewart.tree
 
 import com.jaredjstewart.http_client.IntranetClient
+import com.jaredjstewart.parser.IntranetParser
 import com.jaredjstewart.resource_loading.ResourceLoader
 import org.ccil.cowan.tagsoup.Parser
 
@@ -21,4 +22,6 @@ def url = "http://internalapps/sharepoint/employees/SearchAction.cfm?sort=title"
 
 //def tree = TreeBuilder.buildTree(employees)
 
-new IntranetClient().retrieveAllEmployeesPageHtml()
+//new IntranetClient().retrieveAllEmployees()
+
+println IntranetParser.getAllEmployeesFromFile('AllEmployees.html')

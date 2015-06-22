@@ -9,6 +9,8 @@ dependencies {
     compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.5.2'
     compile 'org.apache.httpcomponents:httpclient:4.5'
     compile 'org.ccil.cowan.tagsoup:tagsoup:1.2'
+    compile 'org.jsoup:jsoup:1.8.2'
+    compile group: 'org.gperfutils', name: 'gbench', version: '0.4.3-groovy-2.4'
 
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'commons-io:commons-io:2.4'
