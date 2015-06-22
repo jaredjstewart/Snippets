@@ -42,7 +42,7 @@ class TreeBuilder {
 
         for (Employee employee : employees) {
             Node ourNode = lookupTableOfNodesById.get(employee.id)
-            if (ourNode) {   // was already found as a preliminary parent - register the actual object
+            if (ourNode) {//was already found as a preliminary parent - register the actual object
                 ourNode.employee = employee;
             } else {
                 ourNode = new Node(employee: employee)

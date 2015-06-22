@@ -8,7 +8,7 @@ import groovy.transform.ToString
 
 @ToString
 class Node {
-    MyObject employee
+    Employee employee
 
     Node parent
     List<Node> children = []
