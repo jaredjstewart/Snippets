@@ -8,6 +8,9 @@ import groovy.transform.ToString
 
 @ToString
 class Employee {
+    String id
+    String parentId
+
     String name
     String title
     String email

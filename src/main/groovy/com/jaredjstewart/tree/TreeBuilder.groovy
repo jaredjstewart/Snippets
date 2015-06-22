@@ -5,12 +5,12 @@ package com.jaredjstewart.tree
  */
 class TreeBuilder {
 
-    static List<Node> buildTreeFirstTry(List<MyObject> theEmployees) {
+    static List<Node> buildTreeFirstTry(List<Employee> theEmployees) {
         Map<String, Node> employeeNodesByName = [:]
         List<Node> rootNodes = new LinkedList<>()
 
-        for (MyObject employee : theEmployees) {
-            Node currentNode = new Node(source: employee)
+        for (Employee employee : theEmployees) {
+            Node currentNode = new Node(employee: employee)
             employeeNodesByName.put((employee.id), currentNode)
 
             Node parentNode = employeeNodesByName.get(employee.parentId)
@@ -19,7 +19,7 @@ class TreeBuilder {
                 parentNode.children.add(currentNode)
 
                 List<Node> childNodesToAttach = rootNodes.findAll {
-                    it.source.parentId == employee.id
+                    it.employee.parentId == employee.id
                 }
 
                 for (Node child : childNodesToAttach) {
@@ -36,32 +36,29 @@ class TreeBuilder {
         return rootNodes
     }
 
-    static List<Node> buildTree(List<MyObject> actualObjects) {
-        Map<String, Node> lookup = [:]
+    static List<Node> buildTree(List<Employee> employees) {
+        Map<String, Node> lookupTableOfNodesById = [:]
         List<Node> rootNodes = new LinkedList<Node>()
 
-        for (MyObject item : actualObjects) {
-            // add us to lookup
-            Node ourNode = lookup.get(item.id)
-
-            Node parentNode = lookup.get(item.parentId)
-
+        for (Employee employee : employees) {
+            Node ourNode = lookupTableOfNodesById.get(employee.id)
             if (ourNode) {   // was already found as a preliminary parent - register the actual object
-                ourNode.source = item;
+                ourNode.employee = employee;
             } else {
-                ourNode = new Node(source: item)
-                lookup.put((item.id), ourNode)
+                ourNode = new Node(employee: employee)
+                lookupTableOfNodesById.put((employee.id), ourNode)
             }
 
-            // hook into parent
-            if (!item.parentId) {
-                // is a root node
+            if (!employee.parentId) {
+                //our node is a root node
                 rootNodes.add(ourNode);
             } else {
-                // is a child row - so we have a parent
+                //our node is a child row - so we have a parent
+                Node parentNode = lookupTableOfNodesById.get(employee.parentId)
+
                 if (!parentNode) {   // unknown parent, construct preliminary parent
                     parentNode = new Node();
-                    lookup.put((item.parentId), parentNode);
+                    lookupTableOfNodesById.put((employee.parentId), parentNode);
                 }
                 parentNode.children.add(ourNode);
             }

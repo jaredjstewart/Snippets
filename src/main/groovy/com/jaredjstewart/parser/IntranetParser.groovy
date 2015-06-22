@@ -44,13 +44,13 @@ class IntranetParser {
         Elements employeeRows = doc.select('table.resultstable tbody tr:gt(0)')
 
         return employeeRows.collect { Element employeeRow ->
-            Elements tr = employeeRow.select('td')
+            Elements tds = employeeRow.select('td')
 
-            new Employee(title: tr.get(2).select('a').text(),
-                    uri: new URI(tr.get(2).select('a').attr('href')),
-                    name: formatName(tr.get(3).text()),
-                    phone: tr.get(4).text(),
-                    email: tr.get(5).text())
+            new Employee(title: tds.get(2).select('a').text(),
+                    uri: new URI(tds.get(2).select('a').attr('href')),
+                    name: formatName(tds.get(3).text()),
+                    phone: tds.get(4).text(),
+                    email: tds.get(5).text())
         }
 
     }
