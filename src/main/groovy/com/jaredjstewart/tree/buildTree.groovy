@@ -2,7 +2,6 @@ package com.jaredjstewart.tree
 
 import com.jaredjstewart.http_client.IntranetClient
 import com.jaredjstewart.parser.IntranetParser
-import com.jaredjstewart.resource_loading.ResourceLoader
 import org.ccil.cowan.tagsoup.Parser
 
 def employees = [new MyObject(id: 'a'),
@@ -24,4 +23,15 @@ def url = "http://internalapps/sharepoint/employees/SearchAction.cfm?sort=title"
 
 //new IntranetClient().retrieveAllEmployees()
 
-println IntranetParser.getAllEmployeesFromFile('AllEmployees.html')
+//def emps = IntranetParser.getAllEmployeesFromFile('AllEmployees.html')
+
+
+IntranetClient client = new IntranetClient()
+
+def emps = client.retrieveAllEmployees()
+
+emps.findAll({it.title}).first().each {
+
+    Employee employee ->
+       println IntranetParser.populateEmployeeDetails(client.retrieveEmployeePage(employee.uri))
+}

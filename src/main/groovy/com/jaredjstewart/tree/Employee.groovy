@@ -20,4 +20,5 @@ class Employee {
 
     String managerName
     String department
+    String workGroup
 }

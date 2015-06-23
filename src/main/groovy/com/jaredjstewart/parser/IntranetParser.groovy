@@ -15,13 +15,17 @@ import org.jsoup.select.Elements
  */
 class IntranetParser {
 
+    static Employee populateEmployeeDetails(String detailsCfmHtml, Employee employee) {
+        Document doc = Jsoup.parse(detailsCfmHtml)
 
-    static List<Employee> getAllEmployeesFromFile(String filename) {
-        String allEmployeesHTML = new File(ResourceLoader.loadResourceAsURI(filename)).text
-        return parseEmployeesUsingJsoup(allEmployeesHTML)
+        employee.managerName = doc.select("span:contains(My Manager)")?.first()?.parent()?.select('a')?.text()
+        employee.department = doc.select("span:contains(Department)")?.first()?.parent()?.select('a')?.text()
+        employee.workGroup = doc.select("span:contains(Work Group)")?.first()?.parent()?.select('a')?.text()
+
+        return employee
     }
 
-    static List<Employee> parseEmployeesFromHtml(String allEmployeesHTML) {
+    static List<Employee> parseEmployeesFromHtmlUsingTagsoup(String allEmployeesHTML) {
         def PARSER = new XmlSlurper(new Parser())
         GPathResult gPathResult = PARSER.parseText(allEmployeesHTML)
 
@@ -38,7 +42,7 @@ class IntranetParser {
         return employees
     }
 
-    static List<Employee> parseEmployeesUsingJsoup(String allEmployeesHTML) {
+    static List<Employee> parseEmployeesfromHtmlUsingJsoup(String allEmployeesHTML) {
         Document doc = Jsoup.parse(allEmployeesHTML)
 
         Elements employeeRows = doc.select('table.resultstable tbody tr:gt(0)')

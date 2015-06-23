@@ -3,6 +3,7 @@ package com.jaredjstewart.http_client
 import com.jaredjstewart.parser.IntranetParser
 import com.jaredjstewart.resource_loading.ResourceLoader
 import com.jaredjstewart.tree.Employee
+import org.apache.commons.lang.time.StopWatch
 import org.apache.http.HttpEntity
 import org.apache.http.HttpHost
 import org.apache.http.HttpResponse
@@ -39,19 +40,32 @@ class IntranetClient {
 
         // Make sure the same context is used to execute logically related requests
         localContext = new BasicHttpContext();
+        httpclient.connectionManager
 
     }
 
     public List<Employee> retrieveAllEmployees() {
-        IntranetParser.parseEmployeesFromHtml(retrieveAllEmployeesPageHtml())
+        List<Employee> employees = IntranetParser.parseEmployeesfromHtmlUsingJsoup(retrieveAllEmployeesPageHtml())
+
+        employees.collect { Employee employee ->
+            String employeeDetailsHtml = retrieveEmployeePage(employee.uri)
+            IntranetParser.populateEmployeeDetails(employeeDetailsHtml, employee)
+        }
+    }
+
+    public String retrieveEmployeePage(URI employeeUri) {
+        HttpHost target = new HttpHost("internalapps", 80, "http");
+        HttpGet httpget = new HttpGet("/sharepoint/employees/details.cfm?" + employeeUri.query)
+
+        HttpResponse response = httpclient.execute(target, httpget, localContext);
+        HttpEntity entity = response.getEntity();
+        return EntityUtils.toString(entity)
     }
 
     private String retrieveAllEmployeesPageHtml() throws ClientProtocolException, IOException {
-
         HttpHost target = new HttpHost("internalapps", 80, "http");
-
-        // Execute a cheap method first. This will trigger NTLM authentication
         HttpGet httpget = new HttpGet("/sharepoint/employees/SearchAction.cfm?sort=title");
+
         HttpResponse response = httpclient.execute(target, httpget, localContext);
         HttpEntity entity = response.getEntity();
         return EntityUtils.toString(entity)
